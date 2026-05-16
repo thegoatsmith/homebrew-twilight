@@ -11,18 +11,17 @@ class Twilight < Formula
     strategy :github_latest
   end
 
-  depends_on "xcodegen" => :build
   depends_on xcode: ["14.0", :build]
+  depends_on "xcodegen" => :build
   depends_on macos: :ventura
 
   def install
     system "xcodegen", "generate"
-    system "xcodebuild",
-           "-project", "Twilight.xcodeproj",
-           "-scheme", "Twilight",
-           "-configuration", "Release",
-           "-derivedDataPath", "build",
-           "MACOSX_DEPLOYMENT_TARGET=13.0"
+    xcodebuild "-project", "Twilight.xcodeproj",
+               "-scheme", "Twilight",
+               "-configuration", "Release",
+               "-derivedDataPath", "build",
+               "MACOSX_DEPLOYMENT_TARGET=13.0"
     prefix.install "build/Build/Products/Release/Twilight.app"
   end
 
@@ -39,6 +38,6 @@ class Twilight < Formula
   end
 
   test do
-    assert_predicate prefix/"Twilight.app/Contents/MacOS/Twilight", :exist?
+    assert_path_exists prefix/"Twilight.app/Contents/MacOS/Twilight"
   end
 end
