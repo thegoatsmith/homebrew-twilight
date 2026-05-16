@@ -25,13 +25,35 @@ class Twilight < Formula
     prefix.install "build/Build/Products/Release/Twilight.app"
   end
 
+  def post_install
+    app_link = Pathname.new("/Applications/Twilight.app")
+    app_target = opt_prefix/"Twilight.app"
+
+    if app_link.symlink?
+      return if app_link.readlink == app_target
+
+      opoo "/Applications/Twilight.app points elsewhere; not modifying."
+      return
+    end
+
+    if app_link.exist?
+      opoo "/Applications/Twilight.app already exists; not modifying."
+      return
+    end
+
+    begin
+      ln_sf app_target, app_link
+    rescue Errno::EACCES
+      opoo "Could not write to /Applications. Run manually:\n" \
+           "  ln -sfn #{app_target} /Applications/Twilight.app"
+    end
+  end
+
   def caveats
     <<~EOS
-      Twilight is a .app bundle. To put it in /Applications:
-        ln -sfn #{opt_prefix}/Twilight.app /Applications/Twilight.app
-
-      Or copy it:
-        cp -R #{opt_prefix}/Twilight.app /Applications/
+      Twilight has been linked to /Applications. Launch it with:
+        open -a Twilight
+      Or from Spotlight / Launchpad.
 
       On first launch, grant Location and Automation (System Events) when prompted.
     EOS
