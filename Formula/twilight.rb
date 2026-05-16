@@ -1,8 +1,8 @@
 class Twilight < Formula
   desc "Menu-bar utility that switches macOS Light/Dark mode at sunrise/sunset"
   homepage "https://github.com/thegoatsmith/twilight"
-  url "https://github.com/thegoatsmith/twilight/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "6dbc2766b419e9366a566ae2b36c8c0dba5ea04dcadd38c4454e565ce450d2dc"
+  url "https://github.com/thegoatsmith/twilight/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "e91164d1b8ef89250823062ef8d0a934991c8ab6a1458226d499a0649a6f70be"
   license "MIT"
   head "https://github.com/thegoatsmith/twilight.git", branch: "main"
 
