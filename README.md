@@ -9,12 +9,20 @@ sunrise and sunset.
 ```sh
 brew tap thegoatsmith/twilight
 brew install --build-from-source twilight
-ln -sfn "$(brew --prefix)/opt/twilight/Twilight.app" /Applications/Twilight.app
+twilight
 ```
 
-The formula builds from source on your machine — no Apple Developer signing or
-notarization needed. Requires Xcode (full Xcode, not just the Command Line
-Tools, since this is a SwiftUI app).
+`brew install` builds from source (~15s) and installs a `twilight` command on
+your PATH that launches the app. No Apple Developer signing or notarization
+needed. Requires full Xcode (not just Command Line Tools) since this is a
+SwiftUI app.
+
+**Optional — for Spotlight / Launchpad / Dock integration**, symlink it into
+`/Applications` once:
+
+```sh
+ln -sfn "$(brew --prefix)/opt/twilight/Twilight.app" /Applications/Twilight.app
+```
 
 ## Upgrade
 
