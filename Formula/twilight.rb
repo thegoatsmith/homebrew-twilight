@@ -44,8 +44,7 @@ class Twilight < Formula
     begin
       ln_sf app_target, app_link
     rescue Errno::EACCES
-      opoo "Could not write to /Applications. Run manually:\n" \
-           "  ln -sfn #{app_target} /Applications/Twilight.app"
+      opoo "Could not write to /Applications. Run manually:\n  ln -sfn #{app_target} /Applications/Twilight.app"
     end
   end
 
