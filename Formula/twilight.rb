@@ -23,36 +23,21 @@ class Twilight < Formula
                "-derivedDataPath", "build",
                "MACOSX_DEPLOYMENT_TARGET=13.0"
     prefix.install "build/Build/Products/Release/Twilight.app"
-  end
 
-  def post_install
-    app_link = Pathname.new("/Applications/Twilight.app")
-    app_target = opt_prefix/"Twilight.app"
-
-    if app_link.symlink?
-      return if app_link.readlink == app_target
-
-      opoo "/Applications/Twilight.app points elsewhere; not modifying."
-      return
-    end
-
-    if app_link.exist?
-      opoo "/Applications/Twilight.app already exists; not modifying."
-      return
-    end
-
-    begin
-      ln_sf app_target, app_link
-    rescue Errno::EACCES
-      opoo "Could not write to /Applications. Run manually:\n  ln -sfn #{app_target} /Applications/Twilight.app"
-    end
+    (bin/"twilight").write <<~SH
+      #!/bin/sh
+      exec /usr/bin/open "#{opt_prefix}/Twilight.app" "$@"
+    SH
+    (bin/"twilight").chmod 0755
   end
 
   def caveats
     <<~EOS
-      Twilight has been linked to /Applications. Launch it with:
-        open -a Twilight
-      Or from Spotlight / Launchpad.
+      Launch Twilight from the terminal with:
+        twilight
+
+      For Spotlight / Launchpad / Dock integration, symlink it once:
+        ln -sfn #{opt_prefix}/Twilight.app /Applications/Twilight.app
 
       On first launch, grant Location and Automation (System Events) when prompted.
     EOS
@@ -60,5 +45,6 @@ class Twilight < Formula
 
   test do
     assert_path_exists prefix/"Twilight.app/Contents/MacOS/Twilight"
+    assert_path_exists bin/"twilight"
   end
 end
