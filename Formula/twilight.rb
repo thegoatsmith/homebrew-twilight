@@ -6,6 +6,11 @@ class Twilight < Formula
   license "MIT"
   head "https://github.com/thegoatsmith/twilight.git", branch: "main"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   depends_on "xcodegen" => :build
   depends_on xcode: ["14.0", :build]
   depends_on macos: :ventura
